@@ -13,6 +13,9 @@ class App extends React.Component {
   }
   checkScore = (s) => {
     this.setState({
+      score: 0 //이렇게 주면 될까? 
+    })
+    this.setState({
       score: s * 10,
       pageConv: true,
     })
