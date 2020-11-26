@@ -9,7 +9,7 @@ const SwipeItem = (props) => {
 
     const [qno,setQno] = React.useState(1);
     let qnos = 1;
-    const quizAnswer = ['O','X','X','O','O'];
+    const quizAnswer = ['O','X','X','O','O','O','X','X','O','O'];
     let direc = '';
     
     // console.log('컴포넌트가 렌더되었습니다!')
@@ -48,7 +48,7 @@ const SwipeItem = (props) => {
             ansCheck(direc,qnos);
             qnos = qnos+1;
             setQno(qnos);
-            if(qnos > 5){
+            if(qnos > 10){
                 checkScore();
             }
             // console.log(qno);
@@ -77,7 +77,7 @@ const SwipeItem = (props) => {
 
         ansCheck(direction,qno);
         setQno(qno+1);
-        if(qno > 4){
+        if(qno > 9){
             checkScore();
         }
         // console.log(qno)

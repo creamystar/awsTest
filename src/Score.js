@@ -12,7 +12,12 @@ const Score = (props) => {
         <Wrap>
             <Top><Nemo>{props.title}</Nemo> 퀴즈에 대한 <br/>내 점수는?</Top>
             <h4><Nemo>{props.score}</Nemo> 점 </h4>
-            <Ment>축하드려요! <br/>동물과 더 친해지는 시간이었길:)</Ment><br/>
+            <Ment>
+                {props.score > 80 ? '와우! 😍 동물을 사랑하시는군요!' : 
+                props.score > 60 ? '😘 동물을 좋아하시나봐요? 따뜻한 마음의 소유자!' : 
+                props.score > 40 ? '동물을 알아가는 시간이었길 😊' : 
+                props.score > 20 ? '😥 동물에게 관심을 주세요! ' : '동물을 싫어하시나요? 😭'}
+            </Ment><br/>
             <But1 onClick={goAgain}>다시하기</But1><br/>
             <But2>랭킹보기</But2>
         </Wrap>

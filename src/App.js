@@ -13,7 +13,7 @@ class App extends React.Component {
   }
   checkScore = (s) => {
     this.setState({
-      score: s * 20,
+      score: s * 10,
       pageConv: true,
     })
   }
