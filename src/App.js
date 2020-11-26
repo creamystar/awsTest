@@ -1,25 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import SwipeItem from './SwipeItem';
+import Score from './Score';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      pageConv: false,
+      title: '동물 상식',
+      score: 0,
+    }
+  }
+  checkScore = (s) => {
+    this.setState({
+      score: s * 20,
+      pageConv: true,
+    })
+  }
+
+  goAgain = () => {
+    this.setState({
+      score: 0,
+      pageConv: false,
+    })
+  }
+  render(){
+    return (
+      <div className="App">
+        {
+          this.state.pageConv? <Score title={this.state.title} score={this.state.score} goAgain = {this.goAgain}/> : <SwipeItem checkScore={this.checkScore}/>
+        }
+        
+      </div>
+    );
+  }
 }
 
 export default App;
