@@ -43,7 +43,7 @@ const But1 = styled.button`
     background-color: #DBDAFC;
     border: 0;
     outline: 0;
-    width: 35vw;
+    width: 350px;
     padding: 7px;
     border-radius: 25px;
     margin-bottom: 1vw;
