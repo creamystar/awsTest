@@ -24,8 +24,12 @@ class App extends React.Component {
   goAgain = () => {
     this.setState({
       score: 0,
-      pageConv: false,
+    }, () => {
+      this.setState({
+        pageConv: false,
+      })
     })
+    //this.setState({ data: data, } () => { setState 이후 실행됨. 이렇게 하면 동기식 처리 가능 (동기: 로직 끝내고 제어 반납 <-> 비동기)})
     console.log(this.state.score)
   }
   render(){
