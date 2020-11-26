@@ -15,6 +15,9 @@ class App extends React.Component {
     this.setState({
       score: 0 //이렇게 주면 될까? 
     })
+    console.log('점수계산')
+    console.log(this.state.score)
+    console.log(s)
     this.setState({
       score: s * 10,
       pageConv: true,
@@ -24,10 +27,7 @@ class App extends React.Component {
   goAgain = () => {
     this.setState({
       score: 0,
-    }, () => {
-      this.setState({
-        pageConv: false,
-      })
+      pageConv: false,
     })
     //this.setState({ data: data, } () => { setState 이후 실행됨. 이렇게 하면 동기식 처리 가능 (동기: 로직 끝내고 제어 반납 <-> 비동기)})
     console.log(this.state.score)

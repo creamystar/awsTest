@@ -25,17 +25,19 @@ const SwipeItem = (props) => {
         if(dir === 'left'){
             if(quizAnswer[qno-1] === 'O'){
                 console.log("rightO")
-                ansRight = ansRight+1;
+                // ansRight = ansRight+1;
+                ansRight = ansRight + 1 
                 console.log(ansRight)
             }
         } else {
             if(quizAnswer[qno-1] === 'X'){
                 console.log("rightX")
-                ansRight = ansRight+1;
+                // ansRight = ansRight+1;
+                ansRight = ansRight + 1 
                 console.log(ansRight)
             }
         }
-        console.log(ansRight)
+        // console.log(ansRight)
         // console.log(qno)
         // console.log(ansRight)
     }
@@ -59,6 +61,7 @@ const SwipeItem = (props) => {
 
       const checkScore = () => {
           props.checkScore(ansRight);
+          ansRight = 0;
       }
 
       const oClick = () => {
