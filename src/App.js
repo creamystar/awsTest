@@ -23,6 +23,7 @@ class App extends React.Component {
       score: 0,
       pageConv: false,
     })
+    console.log(this.state.score)
   }
   render(){
     return (

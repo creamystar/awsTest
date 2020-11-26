@@ -54,7 +54,7 @@ const But2 = styled.button`
     border: 1px solid #DBDAFC;
     background-color: white;
     outline: 0;
-    width: 35vw;
+    width: 350px;
     padding: 5px;
     border-radius: 25px;
     margin-bottom: 1vw;
