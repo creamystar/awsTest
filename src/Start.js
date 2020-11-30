@@ -100,7 +100,7 @@ const SwipeItem = (props) => {
                 <TinderCard flickOnSwipe={['false']} onSwipe={(dir) => onSwipe(dir)}
                 preventSwipe={['right', 'left','up','down']} swipe={['left','right']} >
                     <img src={icon}  
-                    alt='dog' style={{width: '150px', height: '150px'}}/>
+                    alt='dog' style={{width: '130px'}}/>
                 </TinderCard>
             </One>
             <Two onClick={xClick}>X</Two>
@@ -111,6 +111,7 @@ const SwipeItem = (props) => {
     const One = styled.div`
         display: inline-block;
         z-index: 2;
+        vertical-align: middle;
     `;
     const Two = styled.div`
         display: inline-block;
@@ -118,6 +119,8 @@ const SwipeItem = (props) => {
         color: #EEEEFD;
         font-weight: 500;
         cursor: pointer;
+        vertical-align: middle;
+
     `;
   const Wrap = styled.div`
     width: 400px;
