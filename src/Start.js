@@ -67,7 +67,6 @@ const SwipeItem = (props) => {
                 // console.log("rightX")
                 console.log(userscore,tinderscore,gamescore[qno-1])
                 tinderscore = tinderscore + gamescore[qno-1];
-                
             }
         }
         console.log("left: o right: x")
