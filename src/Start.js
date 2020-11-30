@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Quiz from "./Quiz";
 import {useSelector,useDispatch} from 'react-redux';
 import { setQuiznum, setUserscore } from './redux/modules/rank';
+import icon from './image/i1130.png';
 
 let tinderqno = 1;
 let tinderscore = 0;
@@ -98,7 +99,7 @@ const SwipeItem = (props) => {
             <One>
                 <TinderCard flickOnSwipe={['false']} onSwipe={(dir) => onSwipe(dir)}
                 preventSwipe={['right', 'left','up','down']} swipe={['left','right']} >
-                    <img src='https://cdn2.iconfinder.com/data/icons/japan-flat-2/340/dog_pet_animal_japanese_shiba_inu_japan-512.png' 
+                    <img src={icon}  
                     alt='dog' style={{width: '150px', height: '150px'}}/>
                 </TinderCard>
             </One>
