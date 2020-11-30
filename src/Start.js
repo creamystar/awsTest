@@ -120,7 +120,6 @@ const SwipeItem = (props) => {
         font-weight: 500;
         cursor: pointer;
         vertical-align: middle;
-
     `;
   const Wrap = styled.div`
     width: 400px;
