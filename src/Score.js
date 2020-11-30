@@ -1,25 +1,35 @@
 import React from 'react';
 import styled from 'styled-components';
+import {useSelector,useDispatch} from 'react-redux';
+import {setUserscore} from './redux/modules/rank';
 
 const Score = (props) => {
-    console.log(props)
 
+    const dispatch = useDispatch();
+
+    const quizname = useSelector(state => state.rank.quizname);
+    const userscore = useSelector(state => state.rank.userscore);
+
+    console.log(props)
     const goAgain = () => {
-        props.goAgain();
+        dispatch(setUserscore(0));
+        props.history.push('/')
     }
     
     return (
         <Wrap>
-            <Top><Nemo>{props.title}</Nemo> 퀴즈에 대한 <br/>내 점수는?</Top>
-            <h4><Nemo>{props.score}</Nemo> 점 </h4>
+            <Top><Nemo>{quizname}</Nemo> 퀴즈에 대한 <br/>내 점수는?</Top>
+            <h4><Nemo>{userscore}</Nemo> 점 </h4>
             <Ment>
-                {props.score > 80 ? '와우! 😍 동물을 사랑하시는군요!' : 
-                props.score > 60 ? '😘 동물을 좋아하시나봐요? 따뜻한 마음의 소유자!' : 
-                props.score > 40 ? '동물을 알아가는 시간이었길 😊' : 
-                props.score > 20 ? '😥 동물에게 관심을 주세요! ' : '동물을 싫어하시나요? 😭'}
+                {userscore > 80 ? '와우! 😍 재희를 잘 알고있어요!' : 
+                userscore > 60 ? '😘 재희를 좋아하시나봐요? 우리는 칭규칭긔!' : 
+                userscore > 40 ? '재희를 알아가는 시간이었길 😊' : 
+                userscore > 20 ? '😥 재희에게 관심을 주세요! ' : '재희를 싫어하시나요? 😭'}
             </Ment><br/>
             <But1 onClick={goAgain}>다시하기</But1><br/>
-            <But2>랭킹보기</But2>
+            <But2 onClick={() => {
+                props.history.push('/message');
+            }}>랭킹보기</But2>
         </Wrap>
     )
 }
