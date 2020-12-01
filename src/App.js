@@ -6,7 +6,6 @@ import Message from './Message';
 import {Switch, Route} from 'react-router-dom';
 import {withRouter} from 'react-router';
 
-
 class App extends React.Component {
 
   render(){

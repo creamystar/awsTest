@@ -6,6 +6,8 @@ import {useSelector,useDispatch} from 'react-redux';
 import { setQuiznum, setUserscore } from './redux/modules/rank';
 import icon from './image/i1130.png';
 
+
+
 let tinderqno = 1;
 let tinderscore = 0;
 
