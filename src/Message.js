@@ -67,9 +67,6 @@ const Nemo = styled.div`
     padding: 8px;
 `;
 
-const Top = styled.h3`
-    margin-top: 20vh;
-`;
 const Ment = styled.div`
     font-size: 9pt;
     margin-bottom: 10px;
