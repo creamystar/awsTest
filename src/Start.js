@@ -5,6 +5,7 @@ import Quiz from "./Quiz";
 import {useSelector,useDispatch} from 'react-redux';
 import { setQuiznum, setUserscore } from './redux/modules/rank';
 import icon from './image/i1130.png';
+import Progress from './Progress';
 
 
 
@@ -95,6 +96,7 @@ const SwipeItem = (props) => {
        
     return(
         <Wrap>
+            <Progress/>
             <Quiz/>
             <Two onClick={oClick}>O</Two>
             <One>

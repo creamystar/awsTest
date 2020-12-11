@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
@@ -6,28 +6,65 @@ const Ranking = (props) => {
 
     const list = useSelector(state => state.rank.ranklist)
     // console.log(list);
+    const newmsg = useSelector(state => state.rank.newmsg)
 
     const goStart = () => {
         props.history.push('/')
     }
     
+    const wrapRef = React.useRef(null);
+    const bottomRef = React.useRef(null);
+
+    //useEffect : 화면에 렌더링이 완료된 후에 수행
+    useEffect(() => {
+        if(!wrapRef.current){
+            return ;
+        }
+        console.log("useEffect");
+        var wrap = document.querySelector('#wrap');
+        console.log(wrapRef.current)
+        console.log(bottomRef.current.offsetTop);
+        wrap.scrollTo({top:bottomRef.current.offsetTop, left:0, behavior:"smooth"});
+    },[])
+
     return (
-        <Wrap>
+        <Wrap id="wrap" ref={wrapRef}>
             <Top><Nemo>{list.length}명</Nemo>의 사람들 중 당신은?</Top>
             <Scroll>
             {list.map((item,index) => {
-                return (
-                    <Box key = {index}>
-                        <div>
-                            <div>{index+1}등</div>
-                            <div>{item.score}점</div>
-                        </div>
-                        <div>
-                            <div>{item.name}</div>
-                            <div>{item.text}</div>
-                        </div>
-                    </Box>
-                )
+                if(item.score == newmsg.score && item.name == newmsg.name && item.text == newmsg.text){
+                    console.log("find")
+                    console.log(item.score+","+item.name)
+                    return (
+                        <Box key = {index} ref={bottomRef}>
+                            <div>
+                                <div>{index+1}등</div>
+                                <div>{item.score}점</div>
+                            </div>
+                            <div>
+                                <div>{item.name}</div>
+                                <div>{item.text}</div>
+                            </div>
+                        </Box>
+                    )
+
+                } else {
+
+                    return (
+                        <Box key = {index}>
+                            <div>
+                                <div>{index+1}등</div>
+                                <div>{item.score}점</div>
+                            </div>
+                            <div>
+                                <div>{item.name}</div>
+                                <div>{item.text}</div>
+                            </div>
+                        </Box>
+                    )
+
+                }
+                
             })}
             </Scroll>
             <But1 onClick={goStart}>다시하기</But1>

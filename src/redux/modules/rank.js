@@ -7,6 +7,7 @@ const USERSCORE = 'rank/USERSCORE';
 const RANKLIST = 'rank/RANKLIST';
 const QUIZNUM = 'rank/QUIZNUM';
 const QUIZNAME = 'rank/QUIZNAME';
+const NEWMSG = 'rank/NEWMSG'
 
 const initialState = {
     quizname: '재희',
@@ -34,6 +35,7 @@ const initialState = {
             {score:33,name:'김남길',text:'재희 짱짱!'},
             {score:21,name:'이영지',text:'좋아요'},],
     quiznum: 1,
+    newmsg: {score:0,name:'',text:''},
 }
 
 //Action Creators
@@ -58,6 +60,9 @@ export const setQuiznum = (props) => {
 export const setQuizname = (props) => {
     return {type: QUIZNAME, props}
 }
+export const setNewmsg = (props) => {
+    return {type: NEWMSG, props}
+}
 
 //Reducer
 export default function reducer(state = initialState, action = {}){
@@ -79,6 +84,9 @@ export default function reducer(state = initialState, action = {}){
         }
         case "rank/QUIZNAME": {
             return {...state, quizname: action.props};
+        }
+        case 'rank/NEWMSG': {
+            return {...state, newmsg: action.props};
         }
         case "rank/RANKLIST": {
             let indexCheck = -1;

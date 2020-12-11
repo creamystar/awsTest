@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import {useSelector, useDispatch} from 'react-redux';
-import {setRanklist,setUserscore} from './redux/modules/rank';
+import {setRanklist,setUserscore,setNewmsg} from './redux/modules/rank';
 
 
 const Ranking = (props) => {
@@ -11,6 +11,8 @@ const Ranking = (props) => {
     // const ranklist = useSelector(state => state.rank.ranklist);
     const userscore = useSelector(state => state.rank.userscore);
     const quizname = useSelector(state => state.rank.quizname);
+    const newmsg = useSelector(state => state.rank.newmsg);
+
     const [name,setName] = React.useState('');
     const [text,setText] = React.useState('');
 
@@ -38,6 +40,8 @@ const Ranking = (props) => {
         console.log("item")
         console.log(item)
         dispatch(setRanklist(item));
+        dispatch(setNewmsg(item));
+        console.log(newmsg)
         // console.log(ranklist)
         dispatch(setUserscore(0));
         props.history.push('/ranking')
