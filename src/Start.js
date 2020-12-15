@@ -116,7 +116,7 @@ const SwipeItem = (props) => {
                 <One>
                     <TinderCard flickOnSwipe={['false']} onSwipe={(dir) => onSwipe(dir)}
                     preventSwipe={['right', 'left','up','down']} swipe={['left','right']} >
-                        <img src="https://cdn4.iconfinder.com/data/icons/education-759/2050/Education_flat-11-256.png"  
+                        <img src="https://cdn0.iconfinder.com/data/icons/valentine-s-heart/128/__heart_cute_emoji-256.png"  
                         alt='dog' style={{width: '100px'}}/>
                         
                     </TinderCard>
