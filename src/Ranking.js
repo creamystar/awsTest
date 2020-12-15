@@ -1,14 +1,22 @@
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector,useDispatch } from 'react-redux';
 import styled from 'styled-components';
+import Spinner from './Spinner';
+import {setIsLoaded} from './redux/modules/rank';
 
 const Ranking = (props) => {
+    const dispatch = useDispatch();
 
     const list = useSelector(state => state.rank.ranklist)
     // console.log(list);
+    // console.log(list);
     const newmsg = useSelector(state => state.rank.newmsg)
+    const isLoaded = useSelector(state => state.rank.isLoaded);
+    console.log(newmsg);
+    console.log(list);
 
     const goStart = () => {
+        dispatch(setIsLoaded(false));
         props.history.push('/')
     }
     
@@ -17,26 +25,37 @@ const Ranking = (props) => {
 
     //useEffect : 화면에 렌더링이 완료된 후에 수행
     useEffect(() => {
-        if(!wrapRef.current){
-            return ;
+        if(newmsg.score === -1){
+            props.history.push('/')
         }
-        console.log("useEffect");
-        var wrap = document.querySelector('#wrap');
-        console.log(wrapRef.current)
-        console.log(bottomRef.current.offsetTop);
-        wrap.scrollTo({top:bottomRef.current.offsetTop, left:0, behavior:"smooth"});
+        setTimeout(function(){
+            console.log("scroll");
+            console.log(newmsg);
+            var wrap = document.querySelector('#wrap');
+            // var bottom = document.querySelector('#bottom'); //오류 
+            console.log(wrapRef.current) //null 
+            console.log(bottomRef.current) //null 
+            console.log(bottomRef.current.offsetTop) //null 
+            // console.log(bottom.offsetTop) //오류 
+            wrapRef.current.scrollTo({top:bottomRef.current.offsetTop-130, left:0, behavior:"smooth"});
+        },3000)
     },[])
 
+
+    
+
     return (
-        <Wrap id="wrap" ref={wrapRef}>
-            <Top><Nemo>{list.length}명</Nemo>의 사람들 중 당신은?</Top>
-            <Scroll>
+        <>
+        {!isLoaded || bottomRef == null ? <Spinner/> : 
+        <Wrap>
+            <Top><Nemo>{list.length}명</Nemo>의 사람들 중 당신은?</Top> 
+            <Scroll id="wrap" ref={wrapRef}>
             {list.map((item,index) => {
-                if(item.score == newmsg.score && item.name == newmsg.name && item.text == newmsg.text){
-                    console.log("find")
-                    console.log(item.score+","+item.name)
+                if(item.score === newmsg.score && item.name === newmsg.name && item.text === newmsg.text){
+                    // console.log("find")
+                    // console.log(item.score+","+item.name)
                     return (
-                        <Box key = {index} ref={bottomRef}>
+                        <Box key = {index} ref={bottomRef} id="bottom">
                             <div>
                                 <div>{index+1}등</div>
                                 <div>{item.score}점</div>
@@ -68,7 +87,8 @@ const Ranking = (props) => {
             })}
             </Scroll>
             <But1 onClick={goStart}>다시하기</But1>
-        </Wrap>
+        </Wrap>}
+        </>
     )
 }
 

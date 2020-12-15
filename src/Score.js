@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import {useSelector,useDispatch} from 'react-redux';
-import {setUserscore} from './redux/modules/rank';
+import {setIsLoaded, setUserscore} from './redux/modules/rank';
 
 const Score = (props) => {
 
@@ -13,6 +13,7 @@ const Score = (props) => {
     console.log(props)
     const goAgain = () => {
         dispatch(setUserscore(0));
+        dispatch(setIsLoaded(false));
         props.history.push('/')
     }
     
@@ -21,10 +22,10 @@ const Score = (props) => {
             <Top><Nemo>{quizname}</Nemo> 퀴즈에 대한 <br/>내 점수는?</Top>
             <h4><Nemo>{userscore}</Nemo> 점 </h4>
             <Ment>
-                {userscore > 80 ? '와우! 😍 재희를 잘 알고있어요!' : 
-                userscore > 60 ? '😘 재희를 좋아하시나봐요? 우리는 칭규칭긔!' : 
-                userscore > 40 ? '재희를 알아가는 시간이었길 😊' : 
-                userscore > 20 ? '😥 재희에게 관심을 주세요! ' : '재희를 싫어하시나요? 😭'}
+                {userscore > 80 ? `와우! 😍 ${quizname} 잘 알고있어요!` : 
+                userscore > 60 ? `😘 ${quizname} 좋아하시나봐요?` : 
+                userscore > 40 ? `${quizname} 알아가는 시간이었길 😊` : 
+                userscore > 20 ? `😥 ${quizname} 관심을 주세요!` : `${quizname} 싫어하시나요? 😭`}
             </Ment><br/>
             <But1 onClick={goAgain}>다시하기</But1><br/>
             <But2 onClick={() => {

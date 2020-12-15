@@ -6,6 +6,8 @@ const Quiz = (props) => {
 
     const quizList = useSelector(state => state.rank.gamelist);
     const num = useSelector(state => state.rank.quiznum);
+    // console.log(quizList[num-1]);
+    // console.log(quizList);
 
     return (
         <Wrap>

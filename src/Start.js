@@ -1,13 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import TinderCard from 'react-tinder-card';
 import styled from "styled-components";
 import Quiz from "./Quiz";
 import {useSelector,useDispatch} from 'react-redux';
-import { setQuiznum, setUserscore } from './redux/modules/rank';
-import icon from './image/i1130.png';
+import { setQuiznum, setUserscore, gameListDB, rankListDB } from './redux/modules/rank';
 import Progress from './Progress';
-
-
+import Spinner from './Spinner';
 
 let tinderqno = 1;
 let tinderscore = 0;
@@ -20,7 +18,20 @@ const SwipeItem = (props) => {
     const quizAnswer = useSelector(state => state.rank.gameox);
     const gamescore = useSelector(state => state.rank.gamescore);
     const userscore = useSelector(state => state.rank.userscore);
+    const ranklist = useSelector(state => state.rank.ranklist);
+    const isLoaded = useSelector(state => state.rank.isLoaded);
 
+    // console.log(quizAnswer);
+    // console.log(gamescore);
+
+    useEffect(() => {
+        dispatch(gameListDB());
+        dispatch(rankListDB());
+
+    },[])//[]안에 들어가는 변수가 바뀔 때만 재구독 
+
+    // console.log(gamescore)
+    // console.log(ranklist)
 
     //개를 움직여서 ox 선택 
     const onSwipe = (direction) => { //자꾸 2로 돌아간다.. 와이?
@@ -59,21 +70,22 @@ const SwipeItem = (props) => {
         //props로 넘기지 않고 스토어여도 틴더처럼 가져온 애는 그냥 초기값으로 고정인가보다.
         // console.log(qno)
         if(dir === 'left'){
-            if(quizAnswer[qno-1] === 'O'){
+            if(quizAnswer[qno-1]){
                 // console.log("rightO")
-                console.log(userscore,tinderscore,gamescore[qno-1])
+                // console.log(userscore,tinderscore,gamescore[qno-1])
                 tinderscore = tinderscore + gamescore[qno-1];
                 // console.log(qno)
             }
         } else {
-            if(quizAnswer[qno-1] === 'X'){
+            if(!quizAnswer[qno-1]){
                 // console.log("rightX")
-                console.log(userscore,tinderscore,gamescore[qno-1])
+                // console.log(userscore,tinderscore,gamescore[qno-1])
                 tinderscore = tinderscore + gamescore[qno-1];
             }
         }
-        console.log("left: o right: x")
-        console.log(dir,quizAnswer[qno-1])
+        // console.log("left: o right: x")
+        // console.log(dir,quizAnswer[qno-1])
+        // console.log(tinderscore);
         dispatch(setQuiznum(qno + 1));
         tinderqno += 1;
         // console.log("change no: "+qno)
@@ -95,19 +107,23 @@ const SwipeItem = (props) => {
 
        
     return(
-        <Wrap>
-            <Progress/>
-            <Quiz/>
-            <Two onClick={oClick}>O</Two>
-            <One>
-                <TinderCard flickOnSwipe={['false']} onSwipe={(dir) => onSwipe(dir)}
-                preventSwipe={['right', 'left','up','down']} swipe={['left','right']} >
-                    <img src={icon}  
-                    alt='dog' style={{width: '130px'}}/>
-                </TinderCard>
-            </One>
-            <Two onClick={xClick}>X</Two>
-        </Wrap>
+        <>
+            {!isLoaded && <Spinner/>}
+            <Wrap>
+                <Progress/>
+                <Quiz/>
+                <Two onClick={oClick}>O</Two>
+                <One>
+                    <TinderCard flickOnSwipe={['false']} onSwipe={(dir) => onSwipe(dir)}
+                    preventSwipe={['right', 'left','up','down']} swipe={['left','right']} >
+                        <img src="https://cdn4.iconfinder.com/data/icons/education-759/2050/Education_flat-11-256.png"  
+                        alt='dog' style={{width: '100px'}}/>
+                        
+                    </TinderCard>
+                </One>
+                <Two onClick={xClick}>X</Two>
+            </Wrap>
+        </>
     );
 }
 

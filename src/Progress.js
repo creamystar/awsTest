@@ -3,9 +3,12 @@ import styled from 'styled-components';
 import {useSelector} from 'react-redux';
 
 const Progress = (props) => {
-
+    
     const quizList = useSelector(state => state.rank.gamelist);
     const num = useSelector(state => state.rank.quiznum);
+
+    // console.log(quizList)
+    // console.log(num)
 
     return (
         <Wrap>

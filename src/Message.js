@@ -1,17 +1,24 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import styled from 'styled-components';
 import {useSelector, useDispatch} from 'react-redux';
-import {setRanklist,setUserscore,setNewmsg} from './redux/modules/rank';
+import {setIsLoaded,setUserscore,setNewmsg,rankListDB,addRankDB} from './redux/modules/rank';
 
 
 const Ranking = (props) => {
 
     const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(rankListDB())
+        if(userscore === -1){
+            props.history.push('/')
+        }
+    })
 
     // const ranklist = useSelector(state => state.rank.ranklist);
     const userscore = useSelector(state => state.rank.userscore);
     const quizname = useSelector(state => state.rank.quizname);
     const newmsg = useSelector(state => state.rank.newmsg);
+
 
     const [name,setName] = React.useState('');
     const [text,setText] = React.useState('');
@@ -37,13 +44,14 @@ const Ranking = (props) => {
         item.name = name;
         item.text = text;
 
-        console.log("item")
-        console.log(item)
-        dispatch(setRanklist(item));
-        dispatch(setNewmsg(item));
-        console.log(newmsg)
+        // console.log("item")
+        // console.log(item)
+        dispatch(addRankDB(item));
+        dispatch(setNewmsg(item))
+        // console.log(newmsg)
         // console.log(ranklist)
         dispatch(setUserscore(0));
+        dispatch(setIsLoaded(false));
         props.history.push('/ranking')
     }
     
@@ -54,7 +62,8 @@ const Ranking = (props) => {
             <img src= {srcName} alt='dog' style={{width: '100px',  marginTop: '20vh',}}/>
             <h4>
                 <Ment>
-                    <Nemo>{quizname} </Nemo> 에게 한마디를 남겨주세요!
+                    <Nemo>{quizname} </Nemo> 퀴즈, 재밌으셨나요?
+                    <br/>만든이에게 한마디를 남겨주세요!
                 </Ment>
             </h4>
             <input type='text' style={{marginBottom: '7px', height: '4vh', width: '200px',}} placeholder='이름을 적어주세요' onChange={nameChange}/>
