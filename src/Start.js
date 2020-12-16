@@ -265,6 +265,7 @@ const SwipeItem = (props) => {
         margin-top: 5vh;
         margin-bottom: 1vh;
         color: purple;
+        padding: 10px;
     `;
     const One = styled.div`
         display: inline-block;
