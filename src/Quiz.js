@@ -9,6 +9,8 @@ const Quiz = (props) => {
     // console.log(quizList[num-1]);
     // console.log(quizList);
 
+    
+
     return (
         <Wrap>
             <Top>{num}번 문제</Top> <br/>

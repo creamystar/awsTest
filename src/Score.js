@@ -10,12 +10,19 @@ const Score = (props) => {
     const quizname = useSelector(state => state.rank.quizname);
     const userscore = useSelector(state => state.rank.userscore);
 
-    console.log(props)
+    // console.log(props)
+    React.useEffect(() => {
+        if(userscore === -1){
+            props.history.push('/')
+        }
+    })
     const goAgain = () => {
         dispatch(setUserscore(0));
         dispatch(setIsLoaded(false));
         props.history.push('/')
     }
+
+    
     
     return (
         <Wrap>
@@ -30,7 +37,7 @@ const Score = (props) => {
             <But1 onClick={goAgain}>다시하기</But1><br/>
             <But2 onClick={() => {
                 props.history.push('/message');
-            }}>랭킹보기</But2>
+            }}>메세지남기고 랭크보기</But2>
         </Wrap>
     )
 }

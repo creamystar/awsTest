@@ -13,6 +13,7 @@ const QUIZNUM = 'rank/QUIZNUM';
 const QUIZNAME = 'rank/QUIZNAME';
 const NEWMSG = 'rank/NEWMSG';
 const SETLOADED = 'rank/SETLOADED';
+const ANSLIST = 'rank/ANSLIST';
 
 const initialState = {
     quizname: '재희',
@@ -24,6 +25,7 @@ const initialState = {
     quiznum: 1,
     newmsg: {score:-1,name:'',text:''},
     isLoaded: false,
+    anslist: [],
 }
 
 //Action Creators
@@ -54,6 +56,9 @@ export const setNewmsg = (props) => {
 export const setIsLoaded = (props) => {
     return {type: SETLOADED, props}
 }
+export const setAnslist = (props) => {
+    return {type: ANSLIST, props}
+}
 
 //firestore function
 export const gameListDB = () => {
@@ -62,6 +67,7 @@ export const gameListDB = () => {
             let gl = [];
             let ox = [];
             let sc = [];
+            let al = [];
             docs.forEach((doc) => {
                 // console.log(doc.data().quiz); //doc.quiz 하면 안된다 
                 // console.log(doc.id); //doc.id만 바로 뽑을 수 있음 
@@ -70,12 +76,15 @@ export const gameListDB = () => {
                     gl = [...gl, doc.data().quiz];
                     ox = [...ox, doc.data().ans];
                     sc = [...sc, doc.data().score];
+                    al = [...al, {...doc.data()}];
+                    // console.log(al)
                 }
             })
             // console.log(gl);
             dispatch(setGamelist(gl));
             dispatch(setGameox(ox));
             dispatch(setGamescore(sc));
+            dispatch(setAnslist(al));
         }).catch(error => {
             console.log(error);
         })
@@ -149,6 +158,9 @@ export const addRankDB = (props) => {
 //Reducer
 export default function reducer(state = initialState, action = {}){
     switch(action.type) {
+        case "rank/ANSLIST": {
+            return {...state, anslist: action.props};
+        }
         case "rank/GAMELIST": {
             return {...state, gamelist: action.props, isLoaded: true};
         }

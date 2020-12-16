@@ -2,6 +2,7 @@ import React from 'react';
 import Score from './Score';
 import Ranking from './Ranking';
 import Start from './Start';
+import Answer from './Answer';
 import Message from './Message';
 import {Switch, Route} from 'react-router-dom';
 import {withRouter} from 'react-router';
@@ -16,6 +17,7 @@ class App extends React.Component {
           <Route path="/score" exact render={(props) => <Score history={this.props.history} />} />
           <Route path="/message" exact render={(props) => <Message history={this.props.history} />}/>
           <Route path="/ranking" exact render={(props) => <Ranking history={this.props.history} />}/>
+          <Route path="/answer" exact render={(props) => <Answer history={this.props.history} />}/>
         </Switch>
       </div>
     );

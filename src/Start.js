@@ -9,6 +9,7 @@ import Spinner from './Spinner';
 
 let tinderqno = 1;
 let tinderscore = 0;
+let rankCheck = false;
 
 const SwipeItem = (props) => {
     // console.log(props.history)
@@ -17,8 +18,7 @@ const SwipeItem = (props) => {
     const qno = useSelector(state => state.rank.quiznum);
     const quizAnswer = useSelector(state => state.rank.gameox);
     const gamescore = useSelector(state => state.rank.gamescore);
-    const userscore = useSelector(state => state.rank.userscore);
-    const ranklist = useSelector(state => state.rank.ranklist);
+    const list = useSelector(state => state.rank.ranklist);
     const isLoaded = useSelector(state => state.rank.isLoaded);
 
     // console.log(quizAnswer);
@@ -28,7 +28,7 @@ const SwipeItem = (props) => {
         dispatch(gameListDB());
         dispatch(rankListDB());
 
-    },[])//[]안에 들어가는 변수가 바뀔 때만 재구독 
+    })//[]안에 들어가는 변수가 바뀔 때만 재구독 
 
     // console.log(gamescore)
     // console.log(ranklist)
@@ -103,30 +103,169 @@ const SwipeItem = (props) => {
         // console.log(props)
         props.history.push('/score');
     }
-      
 
+    const hideClick = () => {
+        props.history.push('/answer');
+    }
+      
+    const rankClick = () => {
+        rankCheck = !rankCheck;
+        console.log("rankClick")
+        console.log(rankCheck)
+    }
+    // const goStart = () => {
+    //     rankCheck = false;
+    // }
        
     return(
         <>
             {!isLoaded && <Spinner/>}
-            <Wrap>
-                <Progress/>
-                <Quiz/>
-                <Two onClick={oClick}>O</Two>
-                <One>
-                    <TinderCard flickOnSwipe={['false']} onSwipe={(dir) => onSwipe(dir)}
-                    preventSwipe={['right', 'left','up','down']} swipe={['left','right']} >
-                        <img src="https://cdn0.iconfinder.com/data/icons/valentine-s-heart/128/__heart_cute_emoji-256.png"  
-                        alt='dog' style={{width: '100px'}}/>
-                        
-                    </TinderCard>
-                </One>
-                <Two onClick={xClick}>X</Two>
-            </Wrap>
+            <SeeRank onClick={rankClick}>랭크보기/취소🎈</SeeRank>
+            {rankCheck? 
+                <RankModal>
+                    {list.map((item,index) => {
+                            return (
+                                <Box key = {index}>
+                                    <div>
+                                        <div>{index+1}등</div>
+                                        <div>{item.score}점</div>
+                                    </div>
+                                    <div>
+                                        <div>{item.name}</div>
+                                        <div>{item.text}</div>
+                                    </div>
+                                </Box>
+                            )
+                    })}
+                </RankModal>:
+                <Wrap>
+                    <Progress/>
+                    <Quiz/>
+                    <Two onClick={oClick}>O</Two>
+                    <One>
+                        <TinderCard flickOnSwipe={['false']} onSwipe={(dir) => onSwipe(dir)}
+                        preventSwipe={['right', 'left','up','down']} swipe={['left','right']} >
+                            <img src="https://cdn0.iconfinder.com/data/icons/valentine-s-heart/128/__heart_cute_emoji-256.png"  
+                            alt='dog' style={{width: '100px'}}/>
+                        </TinderCard>
+                    </One>
+                    <Two onClick={xClick}>X</Two>
+                </Wrap>
+            }
+            <Hided onClick={hideClick}></Hided>
         </>
-    );
+    )
 }
+    const Hided = styled.div`
+        background-color: rgba(0,0,0,0.1);
+        width: 400px;
+        height: 30px;
+        width: 400px;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        margin: 0 auto;
+    `;
+    const But1 = styled.button`
+        font-size: 8pt;
+        background-color: #DBDAFC;
+        border: 0;
+        outline: 0;
+        width: 350px;
+        padding: 7px;
+        border-radius: 25px;
+        margin-bottom: 1vw;
+        cursor: pointer;
+        z-index: 2;
+        position: absolute;
+        left: calc(50vw - 175px);
+        top: 79vh;
+    `;
+    const RankModal = styled.div`
+        width: 400px;
+        height: 80vh;
+        margin: 0 auto;
+        border: 1px solid rgba(0,0,0,0.1);
+        text-align: center;
+        overflow-y: scroll;
+        &::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+            border-radius: 6px;
+            background: rgba(255,255,255,0.4);
+        };
+        &::-webkit-scrollbar-thumb{
+            background-color: rgba(0,0,0,0.3);
+            border-radius: 6px;
+        }
+        &>div:last-child {
+            margin-bottom: 150px;
+        }
+    `;
 
+    const Box = styled.div`
+    border-radius: 10px;
+    border: 1px solid rgba(0,0,0,0.1);
+    width: 94%;
+    margin: 3%;
+    height: 120px;
+    font-size: 10pt;
+
+    &>div:nth-child(1) {
+        display: inline-block;
+        width: 20%;
+        float: left;
+        border-right: 1px solid rgba(0,0,0,0.1);
+        margin-top: 33px;
+
+        &>div:nth-child(1) {
+            font-size:15pt;
+            font-weight: bold;
+        }
+    }
+
+    &>div:nth-child(2) {
+        width: 70%;
+        height: 50%;
+        display: inline-block;
+        float: left;
+        margin-top: 33px;
+        margin-left: 15px;
+        text-align: left;
+
+        &>div:nth-child(1) {
+            margin-bottom: 5px;
+        }
+
+        &>div:nth-child(2) {
+            height: 100%;
+            width: 100%;
+            overflow-y: scroll;
+            &::-webkit-scrollbar {
+                width: 8px;
+                height: 8px;
+                border-radius: 6px;
+                background: rgba(255,255,255,0.4);
+            };
+            &::-webkit-scrollbar-thumb{
+                background-color: rgba(0,0,0,0.3);
+                border-radius: 6px;
+            }
+        }
+    }
+    `;
+    const SeeRank = styled.div `
+        width: 100px;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        margin: 0 auto;
+        cursor: pointer;
+        font-size: 8pt;
+        margin-top: 5vh;
+        margin-bottom: 1vh;
+        color: purple;
+    `;
     const One = styled.div`
         display: inline-block;
         z-index: 2;
@@ -141,9 +280,10 @@ const SwipeItem = (props) => {
         vertical-align: middle;
     `;
   const Wrap = styled.div`
+    
     width: 400px;
     height: 80vh;
-    margin: 8vh auto;
+    margin: 0 auto;
     border: 1px solid rgba(0,0,0,0.1);
     text-align: center;
   `;
