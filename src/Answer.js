@@ -69,6 +69,9 @@ const Scroll = styled.div`
             display: inline-block;
             color: red;
         }
+        &>div:nth-child(3){
+            color: gray;
+        }
     }
 `;
 

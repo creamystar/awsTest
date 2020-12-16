@@ -109,20 +109,21 @@ const SwipeItem = (props) => {
     }
       
     const rankClick = () => {
-        rankCheck = !rankCheck;
+        rankCheck = true;
         console.log("rankClick")
         console.log(rankCheck)
     }
-    // const goStart = () => {
-    //     rankCheck = false;
-    // }
+    const goStart = () => {
+        rankCheck = false;
+    }
        
     return(
         <>
             {!isLoaded && <Spinner/>}
-            <SeeRank onClick={rankClick}>랭크보기/취소🎈</SeeRank>
+            <SeeRank onClick={rankClick}>랭크보기🎈</SeeRank>
             {rankCheck? 
                 <RankModal>
+                    <div onClick={goStart}>뒤로🎈</div>
                     {list.map((item,index) => {
                             return (
                                 <Box key = {index}>
@@ -201,6 +202,12 @@ const SwipeItem = (props) => {
         &>div:last-child {
             margin-bottom: 150px;
         }
+        &>div:first-child {
+            font-size: 9pt;
+            color: purple;
+            cursor: pointer;
+            padding: 10px;
+        }
     `;
 
     const Box = styled.div`
@@ -262,7 +269,7 @@ const SwipeItem = (props) => {
         margin: 0 auto;
         cursor: pointer;
         font-size: 8pt;
-        margin-top: 5vh;
+        margin-top: 3.5vh;
         margin-bottom: 1vh;
         color: purple;
         padding: 10px;
