@@ -160,7 +160,7 @@ const SwipeItem = (props) => {
     const Hided = styled.div`
         background-color: rgba(0,0,0,0.1);
         width: 400px;
-        height: 30px;
+        height: 20px;
         width: 400px;
         display: flex;
         justify-content: center;
@@ -269,7 +269,7 @@ const SwipeItem = (props) => {
         margin: 0 auto;
         cursor: pointer;
         font-size: 8pt;
-        margin-top: 3.5vh;
+        margin-top: 2vh;
         margin-bottom: 1vh;
         color: purple;
         padding: 10px;
