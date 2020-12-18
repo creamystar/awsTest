@@ -35,6 +35,5 @@ const Top = styled.div`
 const Wrap = styled.div`
     width: 400px;
     height: 30vh;
-    margin-bottom: 7vh;
 `;
 export default Quiz;

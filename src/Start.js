@@ -11,11 +11,12 @@ let tinderqno = 1;
 let tinderscore = 0;
 let rankCheck = false;
 
-const SwipeItem = (props) => {
+const SwipeItem = (props) => { //컴포넌트 리렌더링 방지 
+
     // console.log(props.history)
 
     const dispatch = useDispatch();
-    const qno = useSelector(state => state.rank.quiznum);
+    const quiznum = useSelector(state => state.rank.quiznum);
     const quizAnswer = useSelector(state => state.rank.gameox);
     const gamescore = useSelector(state => state.rank.gamescore);
     const list = useSelector(state => state.rank.ranklist);
@@ -23,47 +24,43 @@ const SwipeItem = (props) => {
 
     // console.log(quizAnswer);
     // console.log(gamescore);
+    // console.log(gamescore.length-1); // 17-1 = 16
 
-    useEffect(() => {
+    //ref로 drag and drop 조절?
+    // const swipe_ref = React.useRef(null);
+
+    React.useEffect(() => {  //[]안에 들어가는 변수가 바뀔 때만 재구독 []꼭 넣어야 재렌더링 방지 가능 
+        console.log('useEffect')
         dispatch(gameListDB());
         dispatch(rankListDB());
-
-    })//[]안에 들어가는 변수가 바뀔 때만 재구독 
+    },[]);
 
     // console.log(gamescore)
     // console.log(ranklist)
 
-    //개를 움직여서 ox 선택 
+    // icon 움직여서 ox 선택 
     const onSwipe = (direction) => { //자꾸 2로 돌아간다.. 와이?
-        // console.log("direction: "+direction)
+        console.log("direction: "+direction)
         if(direction === 'left' | direction === 'right'){
             ansCheck(direction, tinderqno);
         }
     }
 
     //버튼을 클릭해서 ox 선택 
-    const oClick = () => {
-        onClick('O');
-    }
-
-    const xClick = () => {
-        onClick('X');
-    }
-
     const onClick = (e) => {
-
+        console.log(e.target.id) //O
         let direction;
 
-        if(e === 'O'){
+        if(e.target.id === 'O'){
             direction = 'left'
         } else {
             direction = 'right'
         }
 
-        ansCheck(direction, qno);
+        ansCheck(direction, quiznum);
     }
 
-    //디렉션, 퀴즈넘버 체크, 넘기기 
+    //디렉션, 퀴즈넘버 체크, 넘기기 ***
     const ansCheck = (dir, qno) => {
         //돌리는 순간 qno는 1로 먹고 아무리 추가해도 qno는 계속 1로 먹는다... 
         //틴더에 처음에 qno가 1로 들어가버리니까.
@@ -71,25 +68,36 @@ const SwipeItem = (props) => {
         // console.log(qno)
         if(dir === 'left'){
             if(quizAnswer[qno-1]){
-                // console.log("rightO")
-                // console.log(userscore,tinderscore,gamescore[qno-1])
+                console.log("rightO")
+                console.log(tinderscore,gamescore[qno-1])
                 tinderscore = tinderscore + gamescore[qno-1];
                 // console.log(qno)
             }
         } else {
             if(!quizAnswer[qno-1]){
-                // console.log("rightX")
-                // console.log(userscore,tinderscore,gamescore[qno-1])
+                console.log("rightX")
+                console.log(tinderscore,gamescore[qno-1],qno)
                 tinderscore = tinderscore + gamescore[qno-1];
+                console.log(tinderscore);
             }
         }
         // console.log("left: o right: x")
         // console.log(dir,quizAnswer[qno-1])
         // console.log(tinderscore);
         dispatch(setQuiznum(qno + 1));
+        console.log(qno)
+        console.log(quiznum)
         tinderqno += 1;
         // console.log("change no: "+qno)
-        if(qno > gamescore.length-1){
+        console.log(tinderqno)
+        console.log(gamescore.length)
+        if(gamescore.length !== 0 && tinderqno > gamescore.length - 1){
+            //movePoint 0으로 잡히는 오류 방지 
+            console.log(tinderqno) //2
+            console.log(tinderscore) //NaN
+            console.log(gamescore.length) //0
+            //1번문제에서 score로 이동 
+            //gamescore.length 0으로 잡히는 오류 
             goScore();
         }
     }
@@ -116,7 +124,10 @@ const SwipeItem = (props) => {
     const goStart = () => {
         rankCheck = false;
     }
-       
+
+    //drag and drop
+
+
     return(
         <>
             {!isLoaded && <Spinner/>}
@@ -142,46 +153,52 @@ const SwipeItem = (props) => {
                 <Wrap>
                     <Progress/>
                     <Quiz/>
-                    <Two onClick={oClick}>O</Two>
+                    <Two onClick={onClick} id='O'>O</Two>
+                    
                     <One>
-                        <TinderCard flickOnSwipe={['false']} onSwipe={(dir) => onSwipe(dir)}
-                        preventSwipe={['right', 'left','up','down']} swipe={['left','right']} >
+                        <TinderCard flickOnSwipe='false'
+                                onSwipe={(dir) => onSwipe(dir)} 
+                                preventSwipe={['up','down','left','right']}
+                                swipe={['left','right']} >
                             <img src="https://cdn0.iconfinder.com/data/icons/valentine-s-heart/128/__heart_cute_emoji-256.png"  
-                            alt='dog' style={{width: '100px'}}/>
-                        </TinderCard>
+                                alt='dog' style={{width: '100px'}} />       
+                        </TinderCard>                
                     </One>
-                    <Two onClick={xClick}>X</Two>
+                    <Two onClick={onClick} id='X'>X</Two>
                 </Wrap>
             }
             <Hided onClick={hideClick}></Hided>
         </>
     )
 }
+
+
+
     const Hided = styled.div`
         background-color: rgba(0,0,0,0.1);
         width: 400px;
-        height: 20px;
+        height: 3vh;
         width: 400px;
         display: flex;
         justify-content: center;
         text-align: center;
         margin: 0 auto;
     `;
-    const But1 = styled.button`
-        font-size: 8pt;
-        background-color: #DBDAFC;
-        border: 0;
-        outline: 0;
-        width: 350px;
-        padding: 7px;
-        border-radius: 25px;
-        margin-bottom: 1vw;
-        cursor: pointer;
-        z-index: 2;
-        position: absolute;
-        left: calc(50vw - 175px);
-        top: 79vh;
-    `;
+    // const But1 = styled.button`
+    //     font-size: 8pt;
+    //     background-color: #DBDAFC;
+    //     border: 0;
+    //     outline: 0;
+    //     width: 350px;
+    //     padding: 7px;
+    //     border-radius: 25px;
+    //     margin-bottom: 1vw;
+    //     cursor: pointer;
+    //     z-index: 2;
+    //     position: absolute;
+    //     left: calc(50vw - 175px);
+    //     top: 79vh;
+    // `;
     const RankModal = styled.div`
         width: 400px;
         height: 80vh;
@@ -278,6 +295,10 @@ const SwipeItem = (props) => {
         display: inline-block;
         z-index: 2;
         vertical-align: middle;
+        width: 100px;
+        position: relative;
+        top: 0;
+        left: 0;
     `;
     const Two = styled.div`
         display: inline-block;
@@ -287,8 +308,9 @@ const SwipeItem = (props) => {
         cursor: pointer;
         vertical-align: middle;
     `;
+
+
   const Wrap = styled.div`
-    
     width: 400px;
     height: 80vh;
     margin: 0 auto;

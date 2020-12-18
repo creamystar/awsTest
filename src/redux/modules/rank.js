@@ -85,6 +85,7 @@ export const gameListDB = () => {
             dispatch(setGameox(ox));
             dispatch(setGamescore(sc));
             dispatch(setAnslist(al));
+            // console.log(gl.length)
         }).catch(error => {
             console.log(error);
         })
