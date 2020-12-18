@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import TinderCard from 'react-tinder-card';
 import styled from "styled-components";
 import Quiz from "./Quiz";
@@ -12,18 +12,19 @@ let tinderscore = 0;
 let rankCheck = false;
 
 const SwipeItem = (props) => { //컴포넌트 리렌더링 방지 
-
+    const [testNo,setTestNo] = React.useState(1);
     // console.log(props.history)
-
+    console.log("랜더링되었나?");
     const dispatch = useDispatch();
     const quiznum = useSelector(state => state.rank.quiznum);
     const quizAnswer = useSelector(state => state.rank.gameox);
     const gamescore = useSelector(state => state.rank.gamescore);
     const list = useSelector(state => state.rank.ranklist);
     const isLoaded = useSelector(state => state.rank.isLoaded);
-
-    // console.log(quizAnswer);
-    // console.log(gamescore);
+    console.log("TestNo",testNo);
+    console.log(quizAnswer);
+    console.log(gamescore);
+    console.log(tinderscore);
     // console.log(gamescore.length-1); // 17-1 = 16
 
     //ref로 drag and drop 조절?
@@ -56,8 +57,7 @@ const SwipeItem = (props) => { //컴포넌트 리렌더링 방지
         } else {
             direction = 'right'
         }
-
-        ansCheck(direction, quiznum);
+        ansCheck(direction, tinderqno);
     }
 
     //디렉션, 퀴즈넘버 체크, 넘기기 ***
@@ -88,6 +88,8 @@ const SwipeItem = (props) => { //컴포넌트 리렌더링 방지
         console.log(qno)
         console.log(quiznum)
         tinderqno += 1;
+        debugger
+        setTestNo(testNo+1)
         // console.log("change no: "+qno)
         console.log(tinderqno)
         console.log(gamescore.length)
