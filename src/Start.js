@@ -112,15 +112,18 @@ const SwipeItem = (props) => { //컴포넌트 리렌더링 방지
         props.history.push('/score');
     }
 
+    //답지 보기 
     const hideClick = () => {
         props.history.push('/answer');
     }
-      
+    
+    //랭크보기 
     const rankClick = () => {
-        rankCheck = true;
+        rankCheck = !rankCheck;
         console.log("rankClick")
         console.log(rankCheck)
     }
+    //랭크 닫기 
     const goStart = () => {
         rankCheck = false;
     }
