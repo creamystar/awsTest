@@ -7,31 +7,46 @@ import { setQuiznum, setUserscore, gameListDB, rankListDB } from './redux/module
 import Progress from './Progress';
 import Spinner from './Spinner';
 
-let tinderqno = 1;
 let tinderscore = 0;
+let tinderscoretemp = 0;
 let rankCheck = false;
+let answer = [];
+let score = [];
+let num = 0;
 
 const SwipeItem = (props) => { //컴포넌트 리렌더링 방지 
     const [testNo,setTestNo] = React.useState(1);
     // console.log(props.history)
-    console.log("랜더링되었나?");
     const dispatch = useDispatch();
-    const quiznum = useSelector(state => state.rank.quiznum);
     const quizAnswer = useSelector(state => state.rank.gameox);
     const gamescore = useSelector(state => state.rank.gamescore);
+    const quiznum = useSelector(state => state.rank.quiznum);
+    answer = quizAnswer;
+    score = gamescore;
+    num = quiznum;
+    tinderscoretemp = gamescore[quiznum-1];
+    // if(quiznum > 1 ){
+    //     if(gamescore[quiznum-1] === undefined){
+    //         tinderCheck = true;
+    //     }else {
+    //         tinderCheck = false;
+    //     }
+    // }
     const list = useSelector(state => state.rank.ranklist);
     const isLoaded = useSelector(state => state.rank.isLoaded);
-    console.log("TestNo",testNo);
-    console.log(quizAnswer);
-    console.log(gamescore);
-    console.log(tinderscore);
+    // console.log(allquiz)
+    // console.log("TestNo",testNo);
+    // console.log(quizAnswer);
+    // console.log(gamescore);
+    // console.log(tinderscore);
     // console.log(gamescore.length-1); // 17-1 = 16
 
     //ref로 drag and drop 조절?
     // const swipe_ref = React.useRef(null);
 
     React.useEffect(() => {  //[]안에 들어가는 변수가 바뀔 때만 재구독 []꼭 넣어야 재렌더링 방지 가능 
-        console.log('useEffect')
+        console.log('useEffect');
+        console.log("랜더링되었나?");
         dispatch(gameListDB());
         dispatch(rankListDB());
     },[]);
@@ -40,64 +55,67 @@ const SwipeItem = (props) => { //컴포넌트 리렌더링 방지
     // console.log(ranklist)
 
     // icon 움직여서 ox 선택 
-    const onSwipe = (direction) => { //자꾸 2로 돌아간다.. 와이?
+    const onSwipe = (direction) => { 
         console.log("direction: "+direction)
         if(direction === 'left' | direction === 'right'){
-            ansCheck(direction, tinderqno);
+            ansCheck(direction);
         }
     }
 
-    //버튼을 클릭해서 ox 선택 
-    const onClick = (e) => {
-        console.log(e.target.id) //O
-        let direction;
-
-        if(e.target.id === 'O'){
-            direction = 'left'
-        } else {
-            direction = 'right'
-        }
-        ansCheck(direction, tinderqno);
-    }
+        //버튼을 클릭해서 ox 선택 
+        //이거 살리면 자꾸 한문제 더 뒤로감... 
+        //onSwipe랑 퀴즈 번호가 하나 차이남 자꾸 ㅜㅜ 
+    // const onClick = (e) => {
+    //     console.log(e.target.id) //O
+    //     let direction;
+    //     if(e.target.id === 'O'){
+    //         direction = 'left'
+    //     } else {
+    //         direction = 'right'
+    //     }
+    //     ansCheck(direction);
+    // }
 
     //디렉션, 퀴즈넘버 체크, 넘기기 ***
-    const ansCheck = (dir, qno) => {
+    const ansCheck = (dir) => {
+        console.log(answer)
+        console.log(score)
+        console.log(num)
         //돌리는 순간 qno는 1로 먹고 아무리 추가해도 qno는 계속 1로 먹는다... 
         //틴더에 처음에 qno가 1로 들어가버리니까.
         //props로 넘기지 않고 스토어여도 틴더처럼 가져온 애는 그냥 초기값으로 고정인가보다.
-        // console.log(qno)
         if(dir === 'left'){
-            if(quizAnswer[qno-1]){
+            if(answer[num-1]){
                 console.log("rightO")
-                console.log(tinderscore,gamescore[qno-1])
-                tinderscore = tinderscore + gamescore[qno-1];
+                console.log(tinderscore,score[num-1],tinderscoretemp)
+                tinderscore = tinderscore + tinderscoretemp;
+;
                 // console.log(qno)
             }
         } else {
-            if(!quizAnswer[qno-1]){
+            if(!answer[num-1]){
                 console.log("rightX")
-                console.log(tinderscore,gamescore[qno-1],qno)
-                tinderscore = tinderscore + gamescore[qno-1];
-                console.log(tinderscore);
+                console.log(tinderscore,score[num-1],tinderscoretemp)
+                tinderscore = tinderscore + tinderscoretemp;
+                // console.log(tinderscore);
             }
         }
+        console.log(tinderscore);
         // console.log("left: o right: x")
         // console.log(dir,quizAnswer[qno-1])
         // console.log(tinderscore);
-        dispatch(setQuiznum(qno + 1));
-        console.log(qno)
-        console.log(quiznum)
-        tinderqno += 1;
-        debugger
+        dispatch(setQuiznum(num + 1));
+        // console.log(qno)
+        // console.log(quiznum)
         setTestNo(testNo+1)
         // console.log("change no: "+qno)
-        console.log(tinderqno)
-        console.log(gamescore.length)
-        if(gamescore.length !== 0 && tinderqno > gamescore.length - 1){
-            //movePoint 0으로 잡히는 오류 방지 
-            console.log(tinderqno) //2
-            console.log(tinderscore) //NaN
-            console.log(gamescore.length) //0
+        // console.log(tinderqno)
+        // console.log(gamescore.length)
+        console.log(num, answer.length);
+        if(num > answer.length){
+            //gamescore.length 0으로 잡히는 오류 방지하려고 !== 0 넣음 
+            //근데 그랬더니 gamescore.length !== 0 && tinderqno > gamescore.length - 1 여기 중 
+            //끝을 낼 수 있는 조건이 없어서 문제가 생김!
             //1번문제에서 score로 이동 
             //gamescore.length 0으로 잡히는 오류 
             goScore();
@@ -108,7 +126,7 @@ const SwipeItem = (props) => { //컴포넌트 리렌더링 방지
     const goScore = () => {
         dispatch(setQuiznum(1))
         dispatch(setUserscore(tinderscore))
-        tinderqno = 1;
+        console.log(tinderscore);
         tinderscore = 0;
         // console.log(props)
         props.history.push('/score');
@@ -122,8 +140,8 @@ const SwipeItem = (props) => { //컴포넌트 리렌더링 방지
     //랭크보기 
     const rankClick = () => {
         rankCheck = !rankCheck;
-        console.log("rankClick")
-        console.log(rankCheck)
+        // console.log("rankClick")
+        // console.log(rankCheck)
     }
     //랭크 닫기 
     const goStart = () => {
@@ -158,7 +176,8 @@ const SwipeItem = (props) => { //컴포넌트 리렌더링 방지
                 <Wrap>
                     <Progress/>
                     <Quiz/>
-                    <Two onClick={onClick} id='O'>O</Two>
+                    {/* <Two onClick={onClick} id='O'>O</Two> */}
+                    <Two id='O'>O</Two>
                     
                     <One>
                         <TinderCard flickOnSwipe='false'
@@ -169,7 +188,8 @@ const SwipeItem = (props) => { //컴포넌트 리렌더링 방지
                                 alt='dog' style={{width: '100px'}} />       
                         </TinderCard>                
                     </One>
-                    <Two onClick={onClick} id='X'>X</Two>
+                    {/* <Two onClick={onClick} id='X'>X</Two> */}
+                    <Two id='X'>X</Two>
                 </Wrap>
             }
             <Hided onClick={hideClick}></Hided>
@@ -310,7 +330,7 @@ const SwipeItem = (props) => { //컴포넌트 리렌더링 방지
         font-size: 100pt;
         color: #EEEEFD;
         font-weight: 500;
-        cursor: pointer;
+        // cursor: pointer;
         vertical-align: middle;
     `;
 
